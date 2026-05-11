@@ -530,7 +530,7 @@ export interface ApiSiteSettingSiteSetting extends Struct.SingleTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     showHeroImage: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     theme: Schema.Attribute.Enumeration<
-      ['theme-light', 'theme-dark', 'theme-comtrast']
+      ['theme-light', 'theme-dark', 'theme-contrast']
     >;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &

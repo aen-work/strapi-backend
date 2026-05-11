@@ -16,7 +16,7 @@
       "enum": [
         "theme-light",
         "theme-dark",
-        "theme-comtrast"
+        "theme-contrast"
       ]
     },
     "showHeroImage": {

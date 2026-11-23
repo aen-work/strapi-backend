@@ -1,61 +1,100 @@
-# 🚀 Getting started with Strapi
+# Book Club
 
-Strapi comes with a full featured [Command Line Interface](https://docs.strapi.io/dev-docs/cli) (CLI) which lets you scaffold and manage your project in seconds.
+A full-stack book club application with a vanilla HTML/CSS/JavaScript frontend and a Strapi 5 backend.
 
-### `develop`
+## Features
 
-Start your Strapi application with autoReload enabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-develop)
+- Browse books and open a book details page
+- Search and filter the book collection
+- Create an account and log in
+- Save books to a user profile
+- Add ratings from 1 to 10
+- Switch between light, dark, and contrast themes
+- Manage books, ratings, users, and site settings in the Strapi admin panel
 
+## Project structure
+
+```text
+book-club/
+├── frontend-cms-project/  # Static frontend
+└── strapi-backend/        # Strapi API and admin panel
 ```
+
+The frontend uses plain HTML, CSS, JavaScript, and Axios. The API configuration is defined in `frontend-cms-project/config.js`.
+
+## Requirements
+
+- Node.js 20 to 24
+- npm 6 or newer
+
+## Local setup
+
+### 1. Start the backend
+
+From the repository root:
+
+```powershell
+cd strapi-backend
+npm install
+Copy-Item .env.example .env
 npm run develop
-# or
-yarn develop
 ```
 
-### `start`
+Strapi will be available at:
 
-Start your Strapi application with autoReload disabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-start)
+- Admin panel: http://localhost:1337/admin
+- REST API: http://localhost:1337/api
 
-```
-npm run start
-# or
-yarn start
-```
+Create an initial admin account in the admin panel, then create the required content and publish it.
 
-### `build`
+### 2. Start the frontend
 
-Build your admin panel. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-build)
+From a second terminal at the repository root:
 
-```
-npm run build
-# or
-yarn build
+```powershell
+cd frontend-cms-project
+npx serve .
 ```
 
-## ⚙️ Deployment
+Open the URL printed by `serve` (typically http://localhost:3000).
 
-Strapi gives you many possible deployment options for your project including [Strapi Cloud](https://cloud.strapi.io). Browse the [deployment section of the documentation](https://docs.strapi.io/dev-docs/deployment) to find the best solution for your use case.
+The frontend expects the Strapi API at http://localhost:1337/api. Update `frontend-cms-project/config.js` if your backend uses another URL.
 
+## Environment variables
+
+Copy `.env.example` to `.env` before starting Strapi. Replace the example secrets with unique values.
+
+The backend supports SQLite by default and stores its local database in `.tmp/data.db`.
+
+For PostgreSQL or MySQL, set `DATABASE_CLIENT` and the corresponding `DATABASE_HOST`, `DATABASE_PORT`, `DATABASE_NAME`, `DATABASE_USERNAME`, and `DATABASE_PASSWORD` variables supported by `config/database.js`.
+
+## Content types
+
+- **Book:** title, author, pages, published date, cover image, saved users, and ratings
+- **Rating:** integer value from 1 to 10, linked to a user and book
+- **Site setting:** theme and hero image visibility
+
+## API permissions
+
+In Strapi's admin panel, configure permissions under **Settings > Users & Permissions Plugin > Roles**:
+
+- For the public role, allow only the frontend operations needed without authentication.
+- For the authenticated role, allow users to read their profile, save books, and create or update ratings.
+- Keep write access to books and site settings restricted to authenticated administrators.
+
+## Available backend commands
+
+```powershell
+npm run develop   # Start Strapi with hot reload
+npm run dev       # Alias for develop
+npm run build     # Build the admin panel
+npm start         # Start the built application
+npm run console   # Open the Strapi console
+npm run upgrade   # Upgrade Strapi
 ```
-yarn strapi deploy
-```
 
-## 📚 Learn more
+## Data and uploads
 
-- [Resource center](https://strapi.io/resource-center) - Strapi resource center.
-- [Strapi documentation](https://docs.strapi.io) - Official Strapi documentation.
-- [Strapi tutorials](https://strapi.io/tutorials) - List of tutorials made by the core team and the community.
-- [Strapi blog](https://strapi.io/blog) - Official Strapi blog containing articles made by the Strapi team and the community.
-- [Changelog](https://strapi.io/changelog) - Find out about the Strapi product updates, new features and general improvements.
+The local SQLite database is at `strapi-backend/.tmp/data.db`. Uploaded media is stored in `strapi-backend/public/uploads`.
 
-Feel free to check out the [Strapi GitHub repository](https://github.com/strapi/strapi). Your feedback and contributions are welcome!
-
-## ✨ Community
-
-- [Discord](https://discord.strapi.io) - Come chat with the Strapi community including the core team.
-- [Forum](https://forum.strapi.io/) - Place to discuss, ask questions and find answers, show your Strapi project and get feedback or just talk with other Community members.
-- [Awesome Strapi](https://github.com/strapi/awesome-strapi) - A curated list of awesome things related to Strapi.
-
----
-
-<sub>🤫 Psst! [Strapi is hiring](https://strapi.io/careers).</sub>
+Both locations contain local application data and should not be committed to a shared repository. Use Strapi backup or transfer tools before deploying or replacing a database.
